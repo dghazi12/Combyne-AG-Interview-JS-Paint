@@ -1,9 +1,10 @@
 import "./App.css";
+import GenerateGrid from "./GenerateGrid/GenerateGrid";
 
 function App() {
   return (
     <div className="App">
-      <h1>Interview JS Paint</h1>
+      <GenerateGrid />
     </div>
   );
 }

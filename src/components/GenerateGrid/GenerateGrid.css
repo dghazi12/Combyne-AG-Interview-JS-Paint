@@ -1,0 +1,10 @@
+.grid-container {
+  display: flex;
+}
+
+.grid {
+  max-width: 80%;
+  margin: auto;
+  display: grid;
+  cursor: pointer;
+}
