@@ -62,10 +62,7 @@ const NewGrid = () => {
       }
     }
     setGridState(grid);
-  }, [])
- 
   }, []);
-  console.log("THIS IS RANDOM COLOR", randomColor);
 
   return (
     <div>
