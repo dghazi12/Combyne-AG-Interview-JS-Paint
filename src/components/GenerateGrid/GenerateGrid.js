@@ -66,9 +66,6 @@ const NewGrid = () => {
     }
     setGridState(grid);
   }, [])
- 
-  }, []);
-  console.log("THIS IS RANDOM COLOR", randomColor);
 
   const findPoints = (e) => {
     setBackColorToggle(true);
@@ -188,3 +185,4 @@ const NewGrid = () => {
 };
 
 export default NewGrid;
+
