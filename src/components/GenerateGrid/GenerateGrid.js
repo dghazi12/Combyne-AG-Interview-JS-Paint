@@ -56,8 +56,7 @@ const NewGrid = () => {
       // Go through each point in the column
       for (var columnIndex = 0; columnIndex < columns; columnIndex++) {
         // Generate the random color for the point at rowIndex,columnIndex
-        const generateSingleColor = allCOLORS.map((item) => item.color);
-        // console.log(generateSingleColor);
+        let generateSingleColor = allCOLORS.map((item) => item.color);
         var colorForCurrentCoord = generateSingleColor[_.random(0, 2)];
 
         // Set the color
@@ -65,19 +64,26 @@ const NewGrid = () => {
       }
     }
     setGridState(grid);
-  }, [])
+  }, []);
 
-  const findPoints = (e) => {
+  const FloodFillAt = () => {
     setBackColorToggle(true);
+
+    // Getting the grid points
     let x = gridState.length;
     let y = gridState[0].length;
+
+    // Mapping through Colors array to pull out the id of the three colors
     let oldColor = allCOLORS.map((item) => item.id);
     let red = "red";
     let blue = "blue";
     let green = "green";
 
     const fillPixels = () => {
+      // Checking to see which color was selected based on their ID
       if (oldColor === 0) {
+        // Traversing through grid and changing the background color of any div adjacent to selected div
+        // Traverses in left, right, top, bottom and diagnonal directions
         fillPixels(gridState, x - 1, y, setColor(red));
         fillPixels(gridState, x + 1, y, setColor(red));
         fillPixels(gridState, x, y - 1, setColor(red));
@@ -113,9 +119,11 @@ const NewGrid = () => {
   };
 
   const changeAllBackground = (e) => {
+    // Getting the value of the button clicked
     const buttonColor = e.target.getAttribute("name");
     setBackColorToggle(false);
 
+    //Changing the entire grid background based off of which color button was clicked
     if (buttonColor === "red") {
       setBackgroundColor("red");
     }
@@ -146,7 +154,7 @@ const NewGrid = () => {
               return (
                 <div
                   id={`${i},${j}`}
-                  onClick={findPoints}
+                  onClick={FloodFillAt}
                   key={`${i},${j}`}
                   data-index={`${i},${j}`}
                   data-color={`${item}`}
@@ -185,4 +193,3 @@ const NewGrid = () => {
 };
 
 export default NewGrid;
-
