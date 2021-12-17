@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import ColorPicker from "../ColorPicker/ColorPicker";
 import "./GenerateGrid.css";
 
@@ -61,7 +62,10 @@ const NewGrid = () => {
       }
     }
     setGridState(grid);
+  }, [])
+ 
   }, []);
+  console.log("THIS IS RANDOM COLOR", randomColor);
 
   return (
     <div>
