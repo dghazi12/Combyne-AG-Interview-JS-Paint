@@ -5,6 +5,7 @@ const ColorPicker = (props) => {
     <button
       className={`button ${props.classColor}`}
       name={`${props.classColor}`}
+      onClick={props.onClick}
     >
       {props.title}
     </button>
