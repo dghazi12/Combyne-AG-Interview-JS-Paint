@@ -39,6 +39,9 @@ const NewGrid = () => {
   const [rows, setRows] = useState(5);
   const [columns, setColumns] = useState(5);
   const [width, setWidth] = useState(50);
+  const [color, setColor] = useState("");
+  const [backColorToggle, setBackColorToggle] = useState(false);
+  const [backgroundColor, setBackgroundColor] = useState("gray");
 
   useEffect(() => {
     // The 2D array which will be used to store the randomly generated color values
@@ -53,7 +56,7 @@ const NewGrid = () => {
       for (var columnIndex = 0; columnIndex < columns; columnIndex++) {
         // Generate the random color for the point at rowIndex,columnIndex
         const generateSingleColor = allCOLORS.map((item) => item.color);
-        console.log(generateSingleColor);
+        // console.log(generateSingleColor);
         var colorForCurrentCoord = generateSingleColor[_.random(0, 2)];
 
         // Set the color
@@ -63,9 +66,72 @@ const NewGrid = () => {
     setGridState(grid);
   }, []);
 
+  const findPoints = (e) => {
+    setBackColorToggle(true);
+    let x = gridState.length;
+    let y = gridState[0].length;
+    let oldColor = allCOLORS.map((item) => item.id);
+    let red = "red";
+    let blue = "blue";
+    let green = "green";
+
+    const fillPixels = () => {
+      if (oldColor === 0) {
+        fillPixels(gridState, x - 1, y, setColor(red));
+        fillPixels(gridState, x + 1, y, setColor(red));
+        fillPixels(gridState, x, y - 1, setColor(red));
+        fillPixels(gridState, x, y + 1, setColor(red));
+        fillPixels(gridState, x + 1, y + 1, setColor(red));
+        fillPixels(gridState, x - 1, y - 1, setColor(red));
+        fillPixels(gridState, x + 1, y - 1, setColor(red));
+        fillPixels(gridState, x - 1, y + 1, setColor(red));
+      }
+      if (oldColor === 1) {
+        fillPixels(gridState, x - 1, y, setColor(blue));
+        fillPixels(gridState, x + 1, y, setColor(blue));
+        fillPixels(gridState, x, y - 1, setColor(blue));
+        fillPixels(gridState, x, y + 1, setColor(blue));
+        fillPixels(gridState, x + 1, y + 1, setColor(blue));
+        fillPixels(gridState, x - 1, y - 1, setColor(blue));
+        fillPixels(gridState, x + 1, y - 1, setColor(blue));
+        fillPixels(gridState, x - 1, y + 1, setColor(blue));
+      }
+      if (oldColor === 2) {
+        fillPixels(gridState, x - 1, y, setColor(green));
+        fillPixels(gridState, x + 1, y, setColor(green));
+        fillPixels(gridState, x, y - 1, setColor(green));
+        fillPixels(gridState, x, y + 1, setColor(green));
+        fillPixels(gridState, x + 1, y + 1, setColor(green));
+        fillPixels(gridState, x - 1, y - 1, setColor(green));
+        fillPixels(gridState, x + 1, y - 1, setColor(green));
+        fillPixels(gridState, x - 1, y + 1, setColor(green));
+      }
+
+      return gridState;
+    };
+  };
+
+  const changeAllBackground = (e) => {
+    const buttonColor = e.target.getAttribute("name");
+    setBackColorToggle(false);
+
+    if (buttonColor === "red") {
+      setBackgroundColor("red");
+    }
+
+    if (buttonColor === "blue") {
+      setBackgroundColor("blue");
+    }
+
+    if (buttonColor === "green") {
+      setBackgroundColor("green");
+    }
+  };
+
   return (
     <div>
       <h1>JS Technical Interview Paint</h1>
+      <h2>Click Grid!</h2>
       <div className="grid-container">
         <div
           className="grid"
@@ -79,22 +145,40 @@ const NewGrid = () => {
               return (
                 <div
                   id={`${i},${j}`}
-                  //   onClick={}
+                  onClick={findPoints}
                   key={`${i},${j}`}
                   data-index={`${i},${j}`}
+                  data-color={`${item}`}
                   style={{
-                    backgroundColor: `${item}`,
+                    backgroundColor:
+                      backColorToggle === true ? `${item}` : backgroundColor,
+                    border: "solid 1px black",
                   }}
-                />
+                ></div>
               );
             });
           })}
         </div>
       </div>
 
-      <ColorPicker classColor="red" title="Red" />
-      <ColorPicker classColor="blue" title="Blue" />
-      <ColorPicker classColor="green" title="Green" />
+      <ColorPicker
+        name="red"
+        onClick={changeAllBackground}
+        classColor="red"
+        title="Red"
+      />
+      <ColorPicker
+        name="blue"
+        onClick={changeAllBackground}
+        classColor="blue"
+        title="Blue"
+      />
+      <ColorPicker
+        name="green"
+        onClick={changeAllBackground}
+        classColor="green"
+        title="Green"
+      />
     </div>
   );
 };
