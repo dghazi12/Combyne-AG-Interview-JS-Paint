@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+
+import ColorPicker from "../ColorPicker/ColorPicker";
 import "./GenerateGrid.css";
 
 /**
@@ -9,7 +11,11 @@ import "./GenerateGrid.css";
 var _ = require("lodash");
 
 // The colors this grid allows
-var COLORS = ["red", "blue", "green"];
+var allCOLORS = [
+  { id: 0, color: "red" },
+  { id: 1, color: "blue" },
+  { id: 2, color: "green" },
+];
 
 /**
  * Flood fills the given grid by changing the color of the point at x and y
@@ -28,8 +34,9 @@ var COLORS = ["red", "blue", "green"];
  * @param {number} columns Number of columns in this grid
  * @returns {[][]string} Grid array
  */
+
 const NewGrid = () => {
-  const [randomColor, setRandomColor] = useState([]);
+  const [gridState, setGridState] = useState([]);
   const [rows, setRows] = useState(5);
   const [columns, setColumns] = useState(5);
   const [width, setWidth] = useState(50);
@@ -46,19 +53,19 @@ const NewGrid = () => {
       // Go through each point in the column
       for (var columnIndex = 0; columnIndex < columns; columnIndex++) {
         // Generate the random color for the point at rowIndex,columnIndex
-        var colorForCurrentCoord = COLORS[_.random(0, 2)];
+        const generateSingleColor = allCOLORS.map((item) => item.color);
+        console.log(generateSingleColor);
+        var colorForCurrentCoord = generateSingleColor[_.random(0, 2)];
 
         // Set the color
         grid[rowIndex][columnIndex] = colorForCurrentCoord;
       }
     }
-    setRandomColor(grid);
+    setGridState(grid);
+  }, [])
+ 
   }, []);
   console.log("THIS IS RANDOM COLOR", randomColor);
-
-  const getIndex = (e) => {
-    console.log(e.target.getAttribute("data-index")); //will log the index of the clicked item
-  };
 
   return (
     <div>
@@ -71,16 +78,16 @@ const NewGrid = () => {
             gridTemplateRows: `repeat(${rows}, ${width}px)`,
           }}
         >
-          {randomColor.map((oneColor) => {
-            return oneColor.map((item, index) => {
+          {gridState.map((oneColor, i) => {
+            return oneColor.map((item, j) => {
               return (
                 <div
-                  onClick={getIndex}
-                  key={index}
-                  data-index={index}
+                  id={`${i},${j}`}
+                  //   onClick={}
+                  key={`${i},${j}`}
+                  data-index={`${i},${j}`}
                   style={{
                     backgroundColor: `${item}`,
-                    border: "solid 1px black",
                   }}
                 />
               );
@@ -88,6 +95,10 @@ const NewGrid = () => {
           })}
         </div>
       </div>
+
+      <ColorPicker classColor="red" title="Red" />
+      <ColorPicker classColor="blue" title="Blue" />
+      <ColorPicker classColor="green" title="Green" />
     </div>
   );
 };

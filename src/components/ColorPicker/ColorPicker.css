@@ -1,21 +1,10 @@
-.grid-container {
-  display: flex;
-}
-
-.grid {
-  max-width: 80%;
-  margin: auto;
-  display: grid;
-  cursor: pointer;
-}
-
 .button {
   margin: 20px 10px;
   width: 100px;
   height: 50px;
   border-radius: 20px;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 800;
   color: white;
   cursor: pointer;
 }
@@ -31,4 +20,3 @@
 .green {
   background-color: green;
 }
-
