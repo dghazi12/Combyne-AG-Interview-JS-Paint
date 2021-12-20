@@ -66,56 +66,60 @@ const NewGrid = () => {
     setGridState(grid);
   }, []);
 
-  const FloodFillAt = () => {
+  const FloodFillAt = (e) => {
     setBackColorToggle(true);
 
-    // Getting the grid points
-    let x = gridState.length;
-    let y = gridState[0].length;
+    // Mapping through Colors array to pull out the grid points and color of div selected
+    let oldColor = e.target.getAttribute("data-color");
+    let gridPoints = e.target.getAttribute("data-index");
+    const [xString, yString] = gridPoints;
 
-    // Mapping through Colors array to pull out the id of the three colors
-    let oldColor = allCOLORS.map((item) => item.id);
-    let red = "red";
-    let blue = "blue";
-    let green = "green";
+    let x = parseInt(xString);
+    let y = parseInt(yString);
 
-    const fillPixels = () => {
-      // Checking to see which color was selected based on their ID
-      if (oldColor === 0) {
-        // Traversing through grid and changing the background color of any div adjacent to selected div
-        // Traverses in left, right, top, bottom and diagnonal directions
-        fillPixels(gridState, x - 1, y, setColor(red));
-        fillPixels(gridState, x + 1, y, setColor(red));
-        fillPixels(gridState, x, y - 1, setColor(red));
-        fillPixels(gridState, x, y + 1, setColor(red));
-        fillPixels(gridState, x + 1, y + 1, setColor(red));
-        fillPixels(gridState, x - 1, y - 1, setColor(red));
-        fillPixels(gridState, x + 1, y - 1, setColor(red));
-        fillPixels(gridState, x - 1, y + 1, setColor(red));
-      }
-      if (oldColor === 1) {
-        fillPixels(gridState, x - 1, y, setColor(blue));
-        fillPixels(gridState, x + 1, y, setColor(blue));
-        fillPixels(gridState, x, y - 1, setColor(blue));
-        fillPixels(gridState, x, y + 1, setColor(blue));
-        fillPixels(gridState, x + 1, y + 1, setColor(blue));
-        fillPixels(gridState, x - 1, y - 1, setColor(blue));
-        fillPixels(gridState, x + 1, y - 1, setColor(blue));
-        fillPixels(gridState, x - 1, y + 1, setColor(blue));
-      }
-      if (oldColor === 2) {
-        fillPixels(gridState, x - 1, y, setColor(green));
-        fillPixels(gridState, x + 1, y, setColor(green));
-        fillPixels(gridState, x, y - 1, setColor(green));
-        fillPixels(gridState, x, y + 1, setColor(green));
-        fillPixels(gridState, x + 1, y + 1, setColor(green));
-        fillPixels(gridState, x - 1, y - 1, setColor(green));
-        fillPixels(gridState, x + 1, y - 1, setColor(green));
-        fillPixels(gridState, x - 1, y + 1, setColor(green));
-      }
+    // Checking to see which color was selected
+    if (oldColor === "red") {
+      // Traversing through grid and changing the background color of any div adjacent to selected div
+      // Traverses in left, right, top, bottom and diagnonal directions
+      console.log(x, y);
+      const fillPixels = () => {
+        fillPixels(gridState, x - 1, y, setColor("red"));
+        fillPixels(gridState, x + 1, y, setColor("red"));
+        fillPixels(gridState, x, y - 1, setColor("red"));
+        fillPixels(gridState, x, y + 1, setColor("red"));
+        fillPixels(gridState, x + 1, y + 1, setColor("red"));
+        fillPixels(gridState, x - 1, y - 1, setColor("red"));
+        fillPixels(gridState, x + 1, y - 1, setColor("red"));
+        fillPixels(gridState, x - 1, y + 1, setColor("red"));
+      };
+    }
 
-      return gridState;
-    };
+    if (oldColor === "blue") {
+      console.log(x, y);
+      const fillPixels = () => {
+        fillPixels(gridState, x - 1, y, setColor("blue"));
+        fillPixels(gridState, x + 1, y, setColor("blue"));
+        fillPixels(gridState, x, y - 1, setColor("blue"));
+        fillPixels(gridState, x, y + 1, setColor("blue"));
+        fillPixels(gridState, x + 1, y + 1, setColor("blue"));
+        fillPixels(gridState, x - 1, y - 1, setColor("blue"));
+        fillPixels(gridState, x + 1, y - 1, setColor("blue"));
+        fillPixels(gridState, x - 1, y + 1, setColor("blue"));
+      };
+    }
+    if (oldColor === "green") {
+      console.log(x, y);
+      const fillPixels = () => {
+        fillPixels(gridState, x - 1, y, setColor("green"));
+        fillPixels(gridState, x + 1, y, setColor("green"));
+        fillPixels(gridState, x, y - 1, setColor("green"));
+        fillPixels(gridState, x, y + 1, setColor("green"));
+        fillPixels(gridState, x + 1, y + 1, setColor("green"));
+        fillPixels(gridState, x - 1, y - 1, setColor("green"));
+        fillPixels(gridState, x + 1, y - 1, setColor("green"));
+        fillPixels(gridState, x - 1, y + 1, setColor("green"));
+      };
+    }
   };
 
   const changeAllBackground = (e) => {
@@ -153,10 +157,9 @@ const NewGrid = () => {
             return oneColor.map((item, j) => {
               return (
                 <div
-                  id={`${i},${j}`}
                   onClick={FloodFillAt}
                   key={`${i},${j}`}
-                  data-index={`${i},${j}`}
+                  data-index={`${j}${i}`}
                   data-color={`${item}`}
                   style={{
                     backgroundColor:
